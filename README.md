@@ -13,7 +13,5 @@ node-gyp configure build
 ## Test
 
 ```
-var nodeimu  = require('./index.js');
-var IMU = new nodeimu.IMU();
-IMU.getValue();
+node test.js
 ```
