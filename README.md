@@ -1,6 +1,6 @@
 # nodeimu
 
-Nodejs bindings for accessing IMU data using RTIMULib2.
+Nodejs bindings for accessing IMU data using RTIMULib2. The addon uses nodejs/nan.
 
 ## Install
 
