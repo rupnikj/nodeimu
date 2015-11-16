@@ -36,7 +36,7 @@ NAN_METHOD(NodeIMU::GetValue) {
 	if (obj->imu->IMURead()) {
 		RTIMU_DATA imuData = obj->imu->getIMUData();
 
-		auto result = Nan::New<v8::Object>();
+		v8::Local<v8::Object> result = Nan::New<v8::Object>();
 		Nan::Set(result, Nan::New("x").ToLocalChecked(), Nan::New(imuData.accel.x()));
 		Nan::Set(result, Nan::New("y").ToLocalChecked(), Nan::New(imuData.accel.y()));
 		Nan::Set(result, Nan::New("z").ToLocalChecked(), Nan::New(imuData.accel.z()));
