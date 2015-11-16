@@ -1,8 +1,7 @@
 #include "nodeimu.h"
+#include <nan.h>
 
 using namespace v8;
-
-Persistent<Function> NodeIMU::constructor;
 
 NodeIMU::NodeIMU() {
     settings = new RTIMUSettings("RTIMULib");
@@ -15,7 +14,7 @@ NodeIMU::NodeIMU() {
 
     imu->IMUInit();
 
-    imu->setSlerpPower(0.02);
+    imu->setSlerpPower((float)0.02);
     imu->setGyroEnable(true);
     imu->setAccelEnable(true);
     imu->setCompassEnable(true);
@@ -26,49 +25,21 @@ NodeIMU::~NodeIMU() {
     delete settings;
 }
 
-void NodeIMU::Init(Handle<Object> exports) {
-    Isolate* isolate = Isolate::GetCurrent();
-    HandleScope scope(isolate);
-
-    // Prepare constructor template
-    Local<FunctionTemplate> tpl = FunctionTemplate::New(isolate, New);
-    tpl->SetClassName(String::NewFromUtf8(isolate, "IMU"));
-    tpl->InstanceTemplate()->SetInternalFieldCount(1);
-
-    // Prototype
-    NODE_SET_PROTOTYPE_METHOD(tpl, "getValue", GetValue);
-
-    constructor.Reset(isolate, tpl->GetFunction());
-    exports->Set(String::NewFromUtf8(isolate, "IMU"),
-                 tpl->GetFunction());
+NAN_METHOD(NodeIMU::New) {
+	NodeIMU* obj = new NodeIMU();
+	obj->Wrap(info.This());
+	info.GetReturnValue().Set(info.This());
 }
 
-void NodeIMU::New(const FunctionCallbackInfo<Value>& args) {
-    NodeIMU* obj = new NodeIMU();    
-    obj->Wrap(args.This());
-    args.GetReturnValue().Set(args.This());
-}
-
-void NodeIMU::GetValue(const FunctionCallbackInfo<Value>& args) {
-    Isolate* isolate = Isolate::GetCurrent();
-    HandleScope scope(isolate);
-
-    NodeIMU* obj = ObjectWrap::Unwrap<NodeIMU>(args.Holder());	
+NAN_METHOD(NodeIMU::GetValue) {
+	NodeIMU* obj = Nan::ObjectWrap::Unwrap<NodeIMU>(info.This());
 	if (obj->imu->IMURead()) {
 		RTIMU_DATA imuData = obj->imu->getIMUData();
-		v8::Local<v8::Object> result = v8::Object::New(isolate);
-		result->Set(v8::String::NewFromUtf8(isolate, "x"),
-			v8::Number::New(isolate, imuData.accel.x()));
-		result->Set(v8::String::NewFromUtf8(isolate, "y"),
-			v8::Number::New(isolate, imuData.accel.y()));
-		result->Set(v8::String::NewFromUtf8(isolate, "z"),
-			v8::Number::New(isolate, imuData.accel.z()));
-		args.GetReturnValue().Set(result);
+
+		auto result = Nan::New<v8::Object>();
+		Nan::Set(result, Nan::New("x").ToLocalChecked(), Nan::New(imuData.accel.x()));
+		Nan::Set(result, Nan::New("y").ToLocalChecked(), Nan::New(imuData.accel.y()));
+		Nan::Set(result, Nan::New("z").ToLocalChecked(), Nan::New(imuData.accel.z()));
+		info.GetReturnValue().Set(result);
 	}
-    //while (obj->imu->IMURead()) {  
-    //    RTIMU_DATA imuData = obj->imu->getIMUData();
-    //    printf("%s\n",RTMath::displayDegrees("", imuData.fusionPose));
-    //}
 }
-
-

@@ -38,7 +38,20 @@
         './RTIMULib2/RTIMULib/IMUDrivers/RTPressureMS5611.cpp',
         './RTIMULib2/RTIMULib/IMUDrivers/RTPressureMS5637.cpp'
       ],
-      'include_dirs': ['./RTIMULib2/RTIMULib']
-    }
+      'include_dirs': [
+        './RTIMULib2/RTIMULib',
+         "<!(node -e \"require('nan')\")"
+      ]
+    },
+    {
+       # needed for publishing binaries with node-pre-gyp
+       'target_name': 'action_after_build',
+       'type': 'none',
+       'dependencies': [ 'NodeIMU' ],
+       'copies': [{
+          'files': [ '<(PRODUCT_DIR)/NodeIMU.node' ],
+          'destination': './out/'
+       }]
+     }
   ]
 }

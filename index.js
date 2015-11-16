@@ -1,1 +1,1 @@
-module.exports = exports = require('./build/Release/NodeIMU');
+module.exports = exports = require('./out/NodeIMU');

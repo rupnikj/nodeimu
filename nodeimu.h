@@ -5,24 +5,34 @@
 
 #include <node.h>
 #include <node_object_wrap.h>
+#include <nan.h>
 
-class NodeIMU : public node::ObjectWrap {
+class NodeIMU : public Nan::ObjectWrap {
  public:
-  static void Init(v8::Handle<v8::Object> exports);
+	 static NAN_MODULE_INIT(Init) {
+		 v8::Local<v8::FunctionTemplate> tpl = Nan::New<v8::FunctionTemplate>(New);
+		 tpl->SetClassName(Nan::New("IMU").ToLocalChecked());
+		 tpl->InstanceTemplate()->SetInternalFieldCount(1);
+
+		 Nan::SetPrototypeMethod(tpl, "getValue", GetValue);
+
+		 Nan::Set(target, Nan::New("IMU").ToLocalChecked(),
+			 Nan::GetFunction(tpl).ToLocalChecked());
+	 }
+  
 
  private:
   explicit NodeIMU();
 
   ~NodeIMU();
 
-  static void New(const v8::FunctionCallbackInfo<v8::Value>& args);
+  static NAN_METHOD(New);
 
-  static void GetValue(const v8::FunctionCallbackInfo<v8::Value>& args);
-
-  static v8::Persistent<v8::Function> constructor;
+  static NAN_METHOD(GetValue);
 
   RTIMU *imu;
-  RTIMUSettings *settings; 
+  RTIMUSettings *settings;
+
 };
 
 #endif

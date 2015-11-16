@@ -1,10 +1,9 @@
 #include <node.h>
 #include "nodeimu.h"
+#include <nan.h>
 
-using namespace v8;
-
-void InitAll(Handle<Object> exports) {
-  NodeIMU::Init(exports);
+NAN_MODULE_INIT(Init) {
+  NodeIMU::Init(target);
 }
 
-NODE_MODULE(addon, InitAll)
+NODE_MODULE(addon, Init)
