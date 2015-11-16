@@ -56,7 +56,7 @@ void NodeIMU::GetValue(const FunctionCallbackInfo<Value>& args) {
     NodeIMU* obj = ObjectWrap::Unwrap<NodeIMU>(args.Holder());
 
     RTIMU_DATA imuData = obj->imu->getIMUData();
-    printf("%s\r",RTMath::displayDegrees("", imuData.fusionPose));
+    printf("%s\n",RTMath::displayDegrees("", imuData.fusionPose));
 }
 
 
