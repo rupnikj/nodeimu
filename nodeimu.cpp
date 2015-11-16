@@ -53,12 +53,22 @@ void NodeIMU::GetValue(const FunctionCallbackInfo<Value>& args) {
     Isolate* isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-    NodeIMU* obj = ObjectWrap::Unwrap<NodeIMU>(args.Holder());
-
-    while (obj->imu->IMURead()) {  
-        RTIMU_DATA imuData = obj->imu->getIMUData();
-        printf("%s\n",RTMath::displayDegrees("", imuData.fusionPose));
-    }
+    NodeIMU* obj = ObjectWrap::Unwrap<NodeIMU>(args.Holder());	
+	if (obj->imu->IMURead()) {
+		RTIMU_DATA imuData = obj->imu->getIMUData();
+		v8::Local<v8::Object> result = v8::Object::New(isolate);
+		result->Set(v8::String::NewFromUtf8(isolate, "x"),
+			v8::Number::New(isolate, imuData.accel.x()));
+		result->Set(v8::String::NewFromUtf8(isolate, "y"),
+			v8::Number::New(isolate, imuData.accel.y()));
+		result->Set(v8::String::NewFromUtf8(isolate, "z"),
+			v8::Number::New(isolate, imuData.accel.z()));
+		args.GetReturnValue().Set(result);
+	}
+    //while (obj->imu->IMURead()) {  
+    //    RTIMU_DATA imuData = obj->imu->getIMUData();
+    //    printf("%s\n",RTMath::displayDegrees("", imuData.fusionPose));
+    //}
 }
 
 
