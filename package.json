@@ -1,0 +1,15 @@
+{
+  "name": "nodeimu",
+  "version": "1.0.0",
+  "description": "Native addon for accessing IMU sensors using RTIMULib2",
+  "license": "BSD-2-Clause-FreeBSD",
+  "author": "Jan Rupnik <jan.rupnik@ijs.si>"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rupnikj/nodeimu"
+  },
+  "main": "./index.js",
+  "engines": {
+    "node": "0.12.7"
+  }
+}
