@@ -1,0 +1,3 @@
+[submodule "RTIMULib2"]
+	path = RTIMULib2
+	url = https://github.com/richards-tech/RTIMULib2.git
