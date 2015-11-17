@@ -36,7 +36,10 @@
         './RTIMULib2/RTIMULib/IMUDrivers/RTPressureBMP180.cpp',
         './RTIMULib2/RTIMULib/IMUDrivers/RTPressureLPS25H.cpp',
         './RTIMULib2/RTIMULib/IMUDrivers/RTPressureMS5611.cpp',
-        './RTIMULib2/RTIMULib/IMUDrivers/RTPressureMS5637.cpp'
+        './RTIMULib2/RTIMULib/IMUDrivers/RTPressureMS5637.cpp',
+        './RTIMULib2/RTIMULib/IMUDrivers/RTHumidity.cpp',
+        './RTIMULib2/RTIMULib/IMUDrivers/RTHumidityHTS221.cpp',
+        './RTIMULib2/RTIMULib/IMUDrivers/RTHumidityHTU21D.cpp'
       ],
       'include_dirs': [
         './RTIMULib2/RTIMULib',

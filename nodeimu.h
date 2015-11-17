@@ -7,6 +7,8 @@
 #include <node_object_wrap.h>
 #include <nan.h>
 
+// tested on node 0.12.7 LSM9DS1 (IMU), LPS25H (pressure), HTS221 (humidity)
+
 class NodeIMU : public Nan::ObjectWrap {
  public:
 	 static NAN_MODULE_INIT(Init) {
@@ -32,6 +34,8 @@ class NodeIMU : public Nan::ObjectWrap {
 
   RTIMU *imu;
   RTIMUSettings *settings;
+  RTPressure *pressure;
+  RTHumidity *humidity;
 
 };
 

@@ -1,6 +1,6 @@
 # nodeimu
 
-Nodejs bindings for accessing IMU data using RTIMULib2. The addon uses nodejs/nan.
+Nodejs bindings for accessing IMU/pressure/humidity/temperature data using RTIMULib2. The addon uses nodejs/nan. It has been tested on Sense HAT for Raspberry Pi.
 
 ## Install
 
