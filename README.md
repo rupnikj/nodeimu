@@ -14,4 +14,5 @@ npm install
 
 ```
 node test.js
+node testSync.js
 ```
