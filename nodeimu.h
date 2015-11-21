@@ -16,7 +16,7 @@ class NodeIMU : public Nan::ObjectWrap {
 		 tpl->SetClassName(Nan::New("IMU").ToLocalChecked());
 		 tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
-		 Nan::SetPrototypeMethod(tpl, "getValueSync", GetValue);
+		 Nan::SetPrototypeMethod(tpl, "getValue", GetValue);
 		 Nan::SetPrototypeMethod(tpl, "getValueSync", GetValueSync);
 
 		 Nan::Set(target, Nan::New("IMU").ToLocalChecked(),
