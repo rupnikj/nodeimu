@@ -37,26 +37,84 @@ NAN_METHOD(NodeIMU::New) {
 	info.GetReturnValue().Set(info.This());
 }
 
+void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool humidity, v8::Handle<v8::Object>& result) {
+	Nan::HandleScope();
+
+	v8::Local<v8::Object> accel = Nan::New<v8::Object>();
+	Nan::Set(accel, Nan::New("x").ToLocalChecked(), Nan::New(imuData.accel.x()));
+	Nan::Set(accel, Nan::New("y").ToLocalChecked(), Nan::New(imuData.accel.y()));
+	Nan::Set(accel, Nan::New("z").ToLocalChecked(), Nan::New(imuData.accel.z()));
+
+	Nan::Set(result, Nan::New("accel").ToLocalChecked(), accel);
+
+	if (pressure) {
+		Nan::Set(result, Nan::New("pressure").ToLocalChecked(), Nan::New(imuData.pressure));
+		Nan::Set(result, Nan::New("temperature").ToLocalChecked(), Nan::New(imuData.temperature));
+	}
+	if (humidity) {
+		Nan::Set(result, Nan::New("humidity").ToLocalChecked(), Nan::New(imuData.humidity));
+	}
+}
+
+class SensorWorker : public Nan::AsyncWorker {
+public:
+	SensorWorker(Nan::Callback *callback, RTIMU* imu, RTPressure *pressure,	RTHumidity *humidity)
+		: AsyncWorker(callback), d_imu(imu), d_pressure(pressure), d_humidity(humidity) {}
+	~SensorWorker() {}
+
+	// Executed inside the worker-thread.
+	// It is not safe to access V8, or V8 data structures
+	// here, so everything we need for input and output
+	// should go on `this`.
+	void Execute() {
+		if (d_imu->IMURead()) {
+			d_imuData = d_imu->getIMUData();
+			if (d_pressure != NULL) { d_pressure->pressureRead(d_imuData); }
+			if (d_humidity != NULL) { d_humidity->humidityRead(d_imuData); }
+		}
+	}
+
+	// Executed when the async work is complete
+	// this function will be run inside the main event loop
+	// so it is safe to use V8 again
+	void HandleOKCallback() {
+		Nan::HandleScope scope;
+
+		v8::Local<v8::Object> result = Nan::New<v8::Object>();
+		PutMeasurement(d_imuData, d_pressure != NULL,d_humidity != NULL, result);
+
+		v8::Local<Value> argv[] = {
+			Nan::Null(), result
+		};
+
+		callback->Call(2, argv);
+	}
+
+private:
+	RTIMU* d_imu;
+	RTPressure *d_pressure;
+	RTHumidity *d_humidity;
+
+	RTIMU_DATA d_imuData;
+};
+
 NAN_METHOD(NodeIMU::GetValue) {
+	NodeIMU* obj = Nan::ObjectWrap::Unwrap<NodeIMU>(info.This());
+	Nan::Callback *callback = new Nan::Callback(info[0].As<Function>());
+	Nan::AsyncQueueWorker(new SensorWorker(callback, obj->imu, obj->pressure, obj->humidity));
+}
+
+NAN_METHOD(NodeIMU::GetValueSync) {
 	NodeIMU* obj = Nan::ObjectWrap::Unwrap<NodeIMU>(info.This());
 	if (obj->imu->IMURead()) {
 		RTIMU_DATA imuData = obj->imu->getIMUData();
-		
-		if (obj->pressure != NULL) { obj->pressure->pressureRead(imuData); }		
-		if (obj->humidity != NULL) { obj->humidity->humidityRead(imuData); }
+		bool pressure = (obj->pressure != NULL);
+		bool humidity = (obj->humidity != NULL);
+		if (pressure) { obj->pressure->pressureRead(imuData); }
+		if (humidity) { obj->humidity->humidityRead(imuData); }
 
 		v8::Local<v8::Object> result = Nan::New<v8::Object>();
-		Nan::Set(result, Nan::New("accelx").ToLocalChecked(), Nan::New(imuData.accel.x()));
-		Nan::Set(result, Nan::New("accely").ToLocalChecked(), Nan::New(imuData.accel.y()));
-		Nan::Set(result, Nan::New("accelz").ToLocalChecked(), Nan::New(imuData.accel.z()));
-
-		if (obj->pressure != NULL) {
-			Nan::Set(result, Nan::New("pressure").ToLocalChecked(), Nan::New(imuData.pressure));
-			Nan::Set(result, Nan::New("temperature").ToLocalChecked(), Nan::New(imuData.temperature));
-		}
-		if (obj->humidity != NULL) {
-			Nan::Set(result, Nan::New("humidity").ToLocalChecked(), Nan::New(imuData.humidity));
-		}
+		PutMeasurement(imuData, pressure, humidity, result);
 
 		info.GetReturnValue().Set(result);
 	}
