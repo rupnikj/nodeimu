@@ -1,6 +1,6 @@
 {
   "name": "nodeimu",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Native addon for accessing IMU/pressure/humidity/temperature sensors using RTIMULib2",
   "license": "BSD-2-Clause-FreeBSD",
   "author": "Jan Rupnik <jan.rupnik@ijs.si>",
@@ -12,5 +12,15 @@
   "dependencies": {
     "nan": "~2.1.0"
   },
-  "keywords": [ "raspberry" , "pi", "sense", "hat", "RTIMULib", "IMU", "pressure", "humidity", "temperature" ]
+  "keywords": [
+    "raspberry",
+    "pi",
+    "sense",
+    "hat",
+    "RTIMULib",
+    "IMU",
+    "pressure",
+    "humidity",
+    "temperature"
+  ]
 }
