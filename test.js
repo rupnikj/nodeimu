@@ -23,7 +23,7 @@ var callb = function (e, data) {
     return;
   }
 
-  var str = "";
+  var str = data.timestamp.toISOString() + " ";
   str += print_vector3("Accel", data.accel)
   // str += print_vector3("Gyro", data.gyro)
   // str += print_vector3("Compass", data.compass)
