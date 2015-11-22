@@ -33,5 +33,6 @@
     "pressure",
     "humidity",
     "temperature"
-  ]
+  ],
+  "readmeFilename": "README.md"
 }
