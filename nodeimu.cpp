@@ -37,16 +37,23 @@ NAN_METHOD(NodeIMU::New) {
 	info.GetReturnValue().Set(info.This());
 }
 
-void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool humidity, v8::Handle<v8::Object>& result) {
+void AddRTVector3ToResult(v8::Handle<v8::Object>& result, RTVector3 data, const char* name) {
 	Nan::HandleScope();
 
-	v8::Local<v8::Object> accel = Nan::New<v8::Object>();
-	Nan::Set(accel, Nan::New("x").ToLocalChecked(), Nan::New(imuData.accel.x()));
-	Nan::Set(accel, Nan::New("y").ToLocalChecked(), Nan::New(imuData.accel.y()));
-	Nan::Set(accel, Nan::New("z").ToLocalChecked(), Nan::New(imuData.accel.z()));
+	v8::Local<v8::Object> field = Nan::New<v8::Object>();
+	Nan::Set(field, Nan::New("x").ToLocalChecked(), Nan::New(data.x()));
+	Nan::Set(field, Nan::New("y").ToLocalChecked(), Nan::New(data.y()));
+	Nan::Set(field, Nan::New("z").ToLocalChecked(), Nan::New(data.z()));
 
-	Nan::Set(result, Nan::New("accel").ToLocalChecked(), accel);
+	Nan::Set(result, Nan::New(name).ToLocalChecked(), field);
+}
 
+void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool humidity, v8::Handle<v8::Object>& result) {
+    AddRTVector3ToResult(result, imuData.accel, "accel");
+    AddRTVector3ToResult(result, imuData.gyro, "gyro");
+    AddRTVector3ToResult(result, imuData.gyro, "compass");
+    AddRTVector3ToResult(result, imuData.fusionPose, "fusionPose");
+	
 	if (pressure) {
 		Nan::Set(result, Nan::New("pressure").ToLocalChecked(), Nan::New(imuData.pressure));
 		Nan::Set(result, Nan::New("temperature").ToLocalChecked(), Nan::New(imuData.temperature));
