@@ -51,7 +51,7 @@ void AddRTVector3ToResult(v8::Handle<v8::Object>& result, RTVector3 data, const 
 void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool humidity, v8::Handle<v8::Object>& result) {
 	Nan::HandleScope();
 	
-	Nan::Set(result, Nan::New("timestamp").ToLocalChecked(), Nan::New<v8::Date>((double)imuData.timestamp).ToLocalChecked());
+	Nan::Set(result, Nan::New("timestamp").ToLocalChecked(), Nan::New<v8::Date>(0.001 * (double)imuData.timestamp).ToLocalChecked());
 	
 	AddRTVector3ToResult(result, imuData.accel, "accel");
     AddRTVector3ToResult(result, imuData.gyro, "gyro");
