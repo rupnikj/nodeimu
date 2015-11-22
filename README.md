@@ -1,6 +1,7 @@
 nodeimu
 =========
 
+[![NPM Version][npm-image]][npm-url]
 [![Linux Build][travis-linux-image]][travis-linux-url]
 
 
@@ -21,6 +22,7 @@ node test.js
 node testSync.js
 ```
 
-
+[npm-image]: https://img.shields.io/npm/v/nodeimu.svg
+[npm-url]: https://npmjs.org/package/nodeimu
 [travis-linux-image]: https://img.shields.io/travis/rupnikj/nodeimu/master.svg?label=linux
 [travis-linux-url]: https://travis-ci.org/rupnikj/nodeimu
