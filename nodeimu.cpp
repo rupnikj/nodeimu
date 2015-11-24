@@ -54,9 +54,9 @@ void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool h
 	Nan::Set(result, Nan::New("timestamp").ToLocalChecked(), Nan::New<v8::Date>(0.001 * (double)imuData.timestamp).ToLocalChecked());
 	
 	AddRTVector3ToResult(result, imuData.accel, "accel");
-    AddRTVector3ToResult(result, imuData.gyro, "gyro");
-    AddRTVector3ToResult(result, imuData.gyro, "compass");
-    AddRTVector3ToResult(result, imuData.fusionPose, "fusionPose");
+	AddRTVector3ToResult(result, imuData.gyro, "gyro");
+	AddRTVector3ToResult(result, imuData.compass, "compass");
+	AddRTVector3ToResult(result, imuData.fusionPose, "fusionPose");
 	
 	if (pressure) {
 		Nan::Set(result, Nan::New("pressure").ToLocalChecked(), Nan::New(imuData.pressure));
