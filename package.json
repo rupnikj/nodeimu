@@ -1,6 +1,6 @@
 {
   "name": "nodeimu",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Native addon for accessing IMU/pressure/humidity/temperature sensors using RTIMULib2",
   "license": "BSD-2-Clause-FreeBSD",
   "author": "Jan Rupnik <jan.rupnik@ijs.si>",
@@ -11,7 +11,7 @@
     },
     {
       "name": "Stéphane Lavirotte",
-      "email": "stephane.lavirotte@unice.fr"
+      "email": "stephane@lavirotte.com"
     }
   ],
   "repository": {

@@ -24,10 +24,11 @@ var callb = function (e, data) {
   }
 
   var str = data.timestamp.toISOString() + " ";
-  str += print_vector3("Accel", data.accel)
-  // str += print_vector3("Gyro", data.gyro)
-  // str += print_vector3("Compass", data.compass)
-  // str += print_vector3("Fusion", data.fusionPose)
+  str += print_vector3('Accel', data.accel)
+  // str += print_vector3('Gyro', data.gyro)
+  // str += print_vector3('Compass', data.compass)
+  // str += print_vector3('Fusion', data.fusionPose)
+  // str += util.format('TiltHeading: %s ', data.tiltHeading);
 
   var str2 = "";
   if (data.temperature && data.pressure && data.humidity) {
@@ -39,7 +40,7 @@ var callb = function (e, data) {
   if (num == numStop) {
     console.timeEnd("async");
   } else {
-    setTimeout(function() { tic = new Date(); IMU.getValue(callb); } , 50 - (toc - tic)); 
+    setTimeout(function() { tic = new Date(); IMU.getValue(callb); } , 20 - (toc - tic));
   }
 }
 
