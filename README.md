@@ -5,7 +5,7 @@ nodeimu
 [![Linux Build][travis-linux-image]][travis-linux-url]
 
 
-Nodejs bindings for accessing IMU/pressure/humidity/temperature data using [RTIMULib2](https://github.com/richards-tech/RTIMULib2.git). The addon uses [nodejs/nan](https://github.com/nodejs/nan.git). It has been tested on [Sense HAT](https://www.raspberrypi.org/products/sense-hat/) for Raspberry Pi.
+Nodejs bindings for accessing IMU/pressure/humidity/temperature data using [RTIMULib2](https://github.com/richards-tech/RTIMULib2.git). The addon uses [nodejs/nan](https://github.com/nodejs/nan.git). It has been tested on [Sense HAT](https://www.raspberrypi.org/products/sense-hat/) and on [GrovePi+](http://www.dexterindustries.com/grovepi/) for Raspberry Pi.
 
 ## Install
 
