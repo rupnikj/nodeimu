@@ -6,4 +6,4 @@ NAN_MODULE_INIT(Init) {
   NodeIMU::Init(target);
 }
 
-NODE_MODULE(addon, Init)
+NODE_MODULE(NodeIMU, Init)
