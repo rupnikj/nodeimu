@@ -20,8 +20,8 @@
   },
   "main": "./index.js",
   "dependencies": {
-    "nan": "2.3.x",
-    "node-gyp": "~3.0.1"
+    "nan": "^2.14.0",
+    "node-gyp": "^6.0.1"
   },
   "keywords": [
     "raspberry",
