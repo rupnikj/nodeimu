@@ -37,7 +37,7 @@ NAN_METHOD(NodeIMU::New) {
 	info.GetReturnValue().Set(info.This());
 }
 
-void AddRTVector3ToResult(v8::Handle<v8::Object>& result, RTVector3 data, const char* name) {
+void AddRTVector3ToResult(v8::Local<v8::Object>& result, RTVector3 data, const char* name) {
 	Nan::HandleScope();
 
 	v8::Local<v8::Object> field = Nan::New<v8::Object>();
@@ -48,7 +48,7 @@ void AddRTVector3ToResult(v8::Handle<v8::Object>& result, RTVector3 data, const 
 	Nan::Set(result, Nan::New(name).ToLocalChecked(), field);
 }
 
-void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool humidity, v8::Handle<v8::Object>& result) {
+void PutMeasurement(const RTIMU_DATA& imuData, const bool pressure, const bool humidity, v8::Local<v8::Object>& result) {
 	Nan::HandleScope();
 	
 	Nan::Set(result, Nan::New("timestamp").ToLocalChecked(), Nan::New<v8::Date>(0.001 * (double)imuData.timestamp).ToLocalChecked());
